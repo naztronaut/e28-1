@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>Project 1 - E28 - Ali Pordeli</title>
+</head>
+<body>
+    <div class="container" id="app" :class="{win, lose}" v-cloak>
+        <main v-if="playing">
+            <div v-if="!entry.length" class="tips">Start typing</div>
+            <div id="hanger">
+                <div id="hangers">
+                    <div class="hanger" v-for="character in failed"></div>
+                </div>
+                <div id="words">
+                    <div v-for="w in splitWord" :class="{ show: w['show'] }">{{ w.print }}</div>
+                </div>
+                <div class="entry_container">
+                    <div id="dead_words">
+                        <div v-for="character in failed">{{ character }}</div>
+                    </div>
+                </div>
+                <div class="final_message">
+                        <p v-if="win">Yay!</p>
+                        <p v-if="lose"><span>The word was </span>{{ word }}</p>
+                    </div>
+                <button v-if="lose || win" id="reset" @click="reset">Start Over</button>
+            </div>
+            <div class="sidebar">
+                <div class="score" v-if="score.lose || score.win">
+                    <div v-if="score.win" class="win"><b>{{ score.win }}</b> Win<span v-if="score.win > 1">s</span></div>
+                    <div class="separator" v-if="score.lose && score.win"></div>
+                    <div v-if="score.lose" class="lose"><b>{{ score.lose }}</b> Lost<span v-if="score.lose > 1">s</span></div>
+                </div>
+                <div id="hint">Hint: <span>{{ hint }}</span></div>
+            </div>
+            <div class="error" v-if="showError" v-html="error"></div>
+        </main>
+        <div class="start_container" v-if="!playing">
+            <span>By Ali Pordeli</span>
+            <p>Word Guessing Game</p>
+            <button id="reset" @click="playing = true">Start</button>
+        </div>
+    </div>
+</body>
+</html>
